@@ -1,9 +1,19 @@
 ## Put comments here that give an overall description of what your
 ## functions do
 
-## Write a short comment describing this function
+## Matrix inversion is usually a costly computation and there may be some
+## benefit to caching the inverse of a matrix rather than computing it
+## repeatedly. It is a project to understand lexical scoping rules.
 
-## The function creates a special "matrix" object that can cache it's inverse
+## Write a short comment describing this function
+## This function creates a special "matrix" object that can cache its inverse.
+## input  : matrix
+## outputs :
+## set() : set the value variables
+## get() : get the value of the matrix
+## getinverse(): get the value of the inverse matrix
+## setinverse(): set the value of the inverse matrix
+
 makeCacheMatrix <- function(x = matrix()) {
         inv <- NULL
         set <- function(y) {
@@ -22,19 +32,24 @@ makeCacheMatrix <- function(x = matrix()) {
 
 ## Write a short comment describing this function
 
+## This function computes the inverse of the special "matrix" retured by makeCacheMatrix,
+## If the inverse hasalready been calculated (and the matrix has not changed), 
+## the the cacheSolve should retrieve the inverse from the cache
+
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
-        res <- makeCacheMatrix(x)
-        ck <- res$getinverse()
-        
-        if(!is.null(ck)) {
+        cm <- makeCacheMatrix(x)
+        sv <- matrix()
+        sv <- cm$getinverse()
+  
+        if(!is.null(sv)) {
                 message("getting cached data")
-                return(ck)
+                return(sv)
         } else {
-                data <- res$set()
+                data <- cm$set()
                 i <- solve(data, ...)
-                res$setinverse(i)
-                return(i)
+                cm$setinverse(i)
+                i
         }
 }
 
